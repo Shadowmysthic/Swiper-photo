@@ -438,7 +438,7 @@ private fun FilterChip(vm: SwipeViewModel, kind: MediaKind) {
             MediaFilter.options(kind).forEach { option ->
                 DropdownMenuItem(
                     text = { Text((if (option == vm.filter) "✓ " else "") + option.title) },
-                    onClick = { open = false; vm.setFilter(option) }
+                    onClick = { open = false; vm.applyFilter(option) }
                 )
             }
         }
@@ -469,7 +469,7 @@ private fun EmptyView(vm: SwipeViewModel, kind: MediaKind) {
         if (vm.filter != MediaFilter.ALL) {
             Spacer(Modifier.height(12.dp))
             Button(
-                onClick = { vm.setFilter(MediaFilter.ALL) },
+                onClick = { vm.applyFilter(MediaFilter.ALL) },
                 colors = ButtonDefaults.buttonColors(containerColor = Palette.Accent)
             ) { Text("Tampilkan semua") }
         }

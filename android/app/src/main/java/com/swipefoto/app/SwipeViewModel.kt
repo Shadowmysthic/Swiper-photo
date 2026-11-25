@@ -133,7 +133,7 @@ class SwipeViewModel(app: Application) : AndroidViewModel(app) {
         reload()
     }
 
-    fun setFilter(newFilter: MediaFilter) {
+    fun applyFilter(newFilter: MediaFilter) {
         if (newFilter == filter) return
         filter = newFilter
         reload()
