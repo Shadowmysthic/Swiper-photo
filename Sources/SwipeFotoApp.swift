@@ -8,6 +8,7 @@ struct SwipeFotoApp: App {
         WindowGroup {
             ContentView()
                 .environmentObject(store)
+                .preferredColorScheme(.light)
         }
     }
 }
