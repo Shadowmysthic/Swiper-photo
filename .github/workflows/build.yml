@@ -1,0 +1,41 @@
+name: Build IPA
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Pasang XcodeGen
+        run: brew install xcodegen
+
+      - name: Buat proyek Xcode
+        run: xcodegen generate
+
+      - name: Build tanpa signing
+        run: |
+          xcodebuild -project SwipeFoto.xcodeproj \
+            -scheme SwipeFoto \
+            -configuration Release \
+            -sdk iphoneos \
+            -derivedDataPath build \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGN_IDENTITY="" \
+            build
+
+      - name: Kemas jadi IPA
+        run: |
+          mkdir Payload
+          cp -R build/Build/Products/Release-iphoneos/SwipeFoto.app Payload/
+          zip -qr SwipeFoto.ipa Payload
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: SwipeFoto-ipa
+          path: SwipeFoto.ipa
